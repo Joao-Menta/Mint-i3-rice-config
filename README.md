@@ -15,11 +15,14 @@ Personal dotfiles for **Linux Mint** with **i3** window manager, themed with a c
 
 ## Screenshots
 
+![Desktop](screenshots/desktop.png)
+*Clean desktop with i3, polybar, and Nord wallpaper*
+
 ![Rofi Launcher](screenshots/rofi.png)
 *Rofi application launcher with Nord theme*
 
 ![Btop](screenshots/btop.png)
-*System monitor with dynamic pywal theme*
+*Terminal with fastfetch and btop, side by side*
 
 ## Dependencies
 
