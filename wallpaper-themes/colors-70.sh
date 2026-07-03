@@ -1,0 +1,20 @@
+# Auto-generated from /home/joao/media/pictures/wallpapers/nord/70.png
+export background=#0a0404
+export foreground=#c1c0c0
+export cursor=#c1c0c0
+export color0=#0a0404
+export color1=#36303d
+export color2=#6a1d21
+export color3=#373c38
+export color4=#93252a
+export color5=#786a75
+export color6=#7b7673
+export color7=#c1c0c0
+export color8=#665353
+export color9=#36303d
+export color10=#6a1d21
+export color11=#373c38
+export color12=#93252a
+export color13=#786a75
+export color14=#7b7673
+export color15=#c1c0c0

@@ -1,0 +1,160 @@
+#!/usr/bin/env bash
+
+ROFI_CMD="rofi -dmenu -i -p Wi-Fi -format i -theme ~/.config/rofi/scripts/rofi-popup.rasi"
+SEP="━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+while true; do
+    wifi_status=$(nmcli -t -f WIFI general 2>/dev/null)
+    wifi_radio_on=false
+    [ "$wifi_status" = "enabled" ] && wifi_radio_on=true
+
+    airplane_on=false
+    rfkill_out=$(rfkill -n -o TYPE,SOFT 2>/dev/null)
+    wlan_blocked=$(echo "$rfkill_out" | grep -i "^wlan" | grep -i "blocked" >/dev/null && echo true || echo false)
+    bt_blocked=$(echo "$rfkill_out" | grep -i "bluetooth" | grep -i "blocked" >/dev/null && echo true || echo false)
+    [ "$wlan_blocked" = true ] && [ "$bt_blocked" = true ] && airplane_on=true
+
+    current_ssid=$(nmcli -t -f ACTIVE,SSID dev wifi list 2>/dev/null | grep "^yes" | cut -d: -f2-)
+    if [ -z "$current_ssid" ]; then
+        wifi_dev=$(nmcli -t -f TYPE,DEVICE,STATE device status 2>/dev/null | grep "^wifi:" | cut -d: -f2 | head -1)
+        [ -n "$wifi_dev" ] && current_ssid=$(nmcli -t -f GENERAL.CONNECTION device show "$wifi_dev" 2>/dev/null | grep "GENERAL.CONNECTION" | cut -d: -f2-)
+    fi
+
+    items=()
+    types=()
+    net_ids=()
+
+    wifi_bar=""; wifi_char=" "
+    for ((i=0; i<5; i++)); do
+        $wifi_radio_on && wifi_bar="${wifi_bar}█" || wifi_bar="${wifi_bar}░"
+    done
+
+    air_bar=""; air_char=" "
+    for ((i=0; i<5; i++)); do
+        $airplane_on && air_bar="${air_bar}█" || air_bar="${air_bar}░"
+    done
+
+    items+=("$(printf "    Wi-Fi  %s               Airplane  %s" "$wifi_bar" "$air_bar")"); types+=("statusline"); net_ids+=("")
+
+    items+=("$SEP"); types+=("sep"); net_ids+=("")
+
+    if [ -n "$current_ssid" ]; then
+        current_signal=$(nmcli -t -f ACTIVE,SIGNAL dev wifi list 2>/dev/null | grep "^yes" | cut -d: -f2)
+        [ -z "$current_signal" ] && current_signal=0
+
+        active_blocks=$(( (current_signal + 10) / 20 ))
+        [ "$active_blocks" -gt 5 ] && active_blocks=5
+
+        bar=""
+        for ((i=0; i<5; i++)); do
+            [ "$i" -lt "$active_blocks" ] && bar="${bar}█" || bar="${bar}░"
+        done
+
+        items+=("$(printf "  %-22s %s  %3s%%" "$current_ssid" "$bar" "$current_signal")"); types+=("current"); net_ids+=("")
+        items+=("$SEP"); types+=("sep"); net_ids+=("")
+    fi
+
+    items+=("WiFi Networks"); types+=("header"); net_ids+=("")
+
+    nets=$(nmcli -t -f SSID,SIGNAL,SECURITY dev wifi list 2>/dev/null | \
+        awk -F: '{
+            ssid=$1; signal=$2; security=$3
+            if (ssid == "" || ssid == "--") next
+            if (signal+0 > max[ssid]+0 || max[ssid] == "") {
+                max[ssid] = signal
+                sec[ssid] = security
+            }
+        }
+        END {
+            for (s in max) {
+                if (s != "'"$current_ssid"'") printf "%s|%s|%s\n", s, max[s], sec[s] ? sec[s] : "OPEN"
+            }
+        }' | sort -t'|' -k2,2rn)
+
+    while IFS='|' read -r ssid signal security; do
+        active_blocks=$(( (signal + 10) / 20 ))
+        [ "$active_blocks" -gt 5 ] && active_blocks=5
+
+        bar=""
+        for ((i=0; i<5; i++)); do
+            [ "$i" -lt "$active_blocks" ] && bar="${bar}█" || bar="${bar}░"
+        done
+
+        items+=("$(printf "  %-22s %s  %3s%%  %s" "$ssid" "$bar" "$signal" "$security")")
+        types+=("network")
+        net_ids+=("$ssid")
+    done <<< "$nets"
+
+    items+=("$SEP"); types+=("sep"); net_ids+=("")
+    items+=("Actions"); types+=("header"); net_ids+=("")
+    items+=("$SEP"); types+=("sep"); net_ids+=("")
+    items+=("    Toggle Wi-Fi"); types+=("toggle_wifi"); net_ids+=("")
+    items+=("    Toggle Airplane"); types+=("toggle_airplane"); net_ids+=("")
+    items+=("    Disconnect"); types+=("disconnect"); net_ids+=("")
+    items+=("    Restart Wi-Fi"); types+=("restart"); net_ids+=("")
+    items+=("    nmtui"); types+=("nmtui"); net_ids+=("")
+    items+=("  Refresh"); types+=("refresh"); net_ids+=("")
+
+    menu_str=$(printf "%s\n" "${items[@]}")
+    selected_idx=$(echo "$menu_str" | $ROFI_CMD)
+    [ -z "$selected_idx" ] && exit 0
+
+    action="${types[$selected_idx]}"
+
+    case "$action" in
+        toggle_wifi)
+            $wifi_radio_on && nmcli radio wifi off || nmcli radio wifi on
+            sleep 1
+            continue
+            ;;
+        toggle_airplane)
+            $airplane_on && rfkill unblock all || rfkill block all
+            sleep 1
+            continue
+            ;;
+        statusline | header | current)
+            continue
+            ;;
+        sep)
+            continue
+            ;;
+        disconnect)
+            wifi_dev=$(nmcli -t -f TYPE,DEVICE,STATE device status 2>/dev/null | grep "^wifi:" | cut -d: -f2 | head -1)
+            [ -n "$wifi_dev" ] && nmcli device disconnect "$wifi_dev"
+            sleep 1
+            continue
+            ;;
+        refresh) continue ;;
+        restart)
+            nmcli radio wifi off && sleep 1 && nmcli radio wifi on
+            sleep 2
+            continue
+            ;;
+        nmtui)
+            ghostty -e nmtui
+            continue
+            ;;
+        network)
+            ssid="${net_ids[$selected_idx]}"
+            notify-send "Wi-Fi" "Connecting to $ssid..."
+
+            if nmcli connection show id "$ssid" >/dev/null 2>&1; then
+                nmcli device wifi connect "$ssid" >/dev/null 2>&1
+            else
+                security=$(echo "$nets" | grep "^$ssid|" | cut -d'|' -f3)
+                if [ -n "$security" ] && [ "$security" != "OPEN" ] && [ "$security" != "--" ]; then
+                    pass=$(rofi -dmenu -password -p "Password for $ssid" \
+                        -theme ~/.config/rofi/scripts/rofi-popup.rasi \
+                        -theme-str 'inputbar { enabled: true; }')
+                    [ -z "$pass" ] && exit 0
+                    nmcli device wifi connect "$ssid" password "$pass" >/dev/null 2>&1
+                else
+                    nmcli device wifi connect "$ssid" >/dev/null 2>&1
+                fi
+            fi
+
+            [ $? -eq 0 ] && notify-send "Wi-Fi" "Connected to $ssid" || notify-send -u critical "Wi-Fi" "Failed to connect to $ssid"
+            exit 0
+            ;;
+    esac
+done

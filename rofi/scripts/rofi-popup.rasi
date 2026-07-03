@@ -1,0 +1,203 @@
+@import                          "../shared/colors.rasi"
+@import                          "../shared/fonts.rasi"
+
+* {
+    border-colour:               var(selected);
+    handle-colour:               var(selected);
+    background-colour:           var(background);
+    foreground-colour:           var(foreground);
+    alternate-background:        var(background-alt);
+    normal-background:           var(background);
+    normal-foreground:           var(foreground);
+    urgent-background:           var(urgent);
+    urgent-foreground:           var(background);
+    active-background:           var(selected);
+    active-foreground:           var(background);
+    selected-normal-background:  var(selected);
+    selected-normal-foreground:  var(background);
+    selected-urgent-background:  var(urgent);
+    selected-urgent-foreground:  var(foreground);
+    selected-active-background:  var(selected);
+    selected-active-foreground:  var(background);
+    alternate-normal-background: var(background-alt);
+    alternate-normal-foreground: var(foreground);
+    alternate-urgent-background: var(urgent);
+    alternate-urgent-foreground: var(background);
+    alternate-active-background: var(selected);
+    alternate-active-foreground: var(background);
+
+    kb-row-up:                   "Up,Control+p";
+    kb-row-down:                 "Down,Control+n";
+    kb-row-tab:                  "Tab";
+    kb-accept-entry:             "Return,Control+m";
+    kb-element-next:             "Control+Tab,Control+i";
+    kb-cancel:                   "Escape,Control+c,Control+g";
+}
+
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       400px;
+
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     8px;
+    border:                      2px solid;
+    border-radius:               0px;
+    border-color:                @border-colour;
+    cursor:                      "default";
+    background-color:            black / 40%;
+}
+
+mainbox {
+    enabled:                     true;
+    spacing:                     8px;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      0px solid;
+    border-radius:               0px;
+    border-color:                @border-colour;
+    background-color:            transparent;
+    children:                    [ "inputbar", "listview" ];
+}
+
+inputbar {
+    enabled:                     false;
+    background-color:            @alternate-background;
+    padding:                     8px;
+    children:                    [prompt, entry];
+    spacing:                     8px;
+    text-color:                  @foreground-colour;
+}
+
+prompt {
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+}
+
+textbox-prompt-colon {
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+}
+
+entry {
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+    placeholder-color:           @foreground-colour;
+}
+
+listview {
+    spacing:                     1px;
+    scrollbar:                   true;
+    scrollbar-width:             4;
+    scrollbar-color:             @handle-colour;
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+}
+
+element {
+    padding:                     4px 8px;
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+    cursor:                      pointer;
+}
+
+element normal.normal {
+    background-color:            transparent;
+    text-color:                  @normal-foreground;
+}
+
+element normal.urgent {
+    background-color:            @urgent-background;
+    text-color:                  @normal-foreground;
+}
+
+element normal.active {
+    background-color:            transparent;
+    text-color:                  @normal-foreground;
+}
+
+element selected.normal {
+    background-color:            var(selected);
+    text-color:                  @selected-normal-foreground;
+}
+
+element selected.urgent {
+    background-color:            @urgent-background;
+    text-color:                  @foreground-colour;
+}
+
+element selected.active {
+    background-color:            var(selected);
+    text-color:                  @foreground-colour;
+}
+
+element alternate.normal {
+    background-color:            transparent;
+    text-color:                  @normal-foreground;
+}
+
+element alternate.urgent {
+    background-color:            @urgent-background;
+    text-color:                  @normal-foreground;
+}
+
+element alternate.active {
+    background-color:            transparent;
+    text-color:                  @normal-foreground;
+}
+
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+}
+
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+}
+
+scrollbar {
+    handle-width:                4;
+    handle-color:                @handle-colour;
+    background-color:            transparent;
+}
+
+textbox {
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+}
+
+message {
+    background-color:            @alternate-background;
+    text-color:                  @foreground-colour;
+    padding:                     8px 12px;
+}
+
+case-indicator {
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+}
+
+num-filtered-rows {
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+}
+
+textbox-num-sep {
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+}
+
+num-rows {
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+}
+
+error-message {
+    padding:                     15px;
+    background-color:            @background-colour;
+    text-color:                  @foreground-colour;
+}

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+ROFI_CMD="rofi -dmenu -i -p Ports -theme ~/.config/rofi/scripts/rofi-popup.rasi"
+
+ports=$(ss -tlnp 2>/dev/null | tail -n +2 | awk '{
+    split($4, a, ":")
+    port = a[length(a)]
+    proto = $1
+    pid_info = $7
+    if (pid_info == "-") {
+        pid = "-"
+        proc = "-"
+    } else {
+        split(pid_info, b, ",")
+        proc_full = b[1]
+        split(proc_full, c, "\"")
+        proc = c[2]
+        split(proc_full, d, "=")
+        pid = d[length(d)]
+    }
+    printf "%-5s %-6s %-20s %s\n", proto, port, proc, pid
+}')
+
+choice=$(echo "$ports" | $ROFI_CMD)
+
+if [ -n "$choice" ] && ! echo "$choice" | grep -q "^Proto"; then
+    pid=$(echo "$choice" | awk '{print $NF}')
+    if [ "$pid" != "-" ] && [ -n "$pid" ]; then
+        confirm=$(printf "Yes\nNo" | rofi -dmenu -i -p "Kill PID $pid?" -theme ~/.config/rofi/scripts/rofi-popup.rasi)
+        if [ "$confirm" = "Yes" ]; then
+            kill -9 "$pid" 2>/dev/null
+            notify-send "Ports" "Killed PID $pid"
+        fi
+    fi
+fi

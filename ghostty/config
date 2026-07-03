@@ -1,0 +1,34 @@
+font-family = Inconsolata Nerd Font Mono
+font-size = 12
+background-opacity = 0.9
+gtk-titlebar = false
+resize-overlay = never
+confirm-close-surface = false
+window-padding-x = 4
+window-padding-y = 4
+window-vsync = true
+window-decoration = none
+background-blur = false
+command = bash -c "source ~/.config/shell/palette.sh && fastfetch && exec bash"
+keybind = alt+c=write_screen_file:open
+
+# pywal
+background = 131008
+foreground = c4c3c1
+cursor-color = c4c3c1
+palette = 0=#131008
+palette = 1=#63593a
+palette = 2=#64625c
+palette = 3=#6f6d4f
+palette = 4=#8f8760
+palette = 5=#9b9b94
+palette = 6=#a3a47e
+palette = 7=#c4c3c1
+palette = 8=#6b6557
+palette = 9=#63593a
+palette = 10=#64625c
+palette = 11=#6f6d4f
+palette = 12=#8f8760
+palette = 13=#9b9b94
+palette = 14=#a3a47e
+palette = 15=#c4c3c1

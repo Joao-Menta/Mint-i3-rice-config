@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+WALL_DIR="/home/joao/media/pictures/wallpapers"
+ROFI_CMD="rofi -dmenu -i -p Wallpaper -theme ~/.config/rofi/scripts/rofi-popup.rasi"
+
+[ ! -d "$WALL_DIR" ] && notify-send "Wallpaper" "Directory $WALL_DIR not found" && exit 1
+
+walls=$(find "$WALL_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.bmp" \) | sort)
+
+choice=$(echo "$walls" | sed "s|$WALL_DIR/||" | $ROFI_CMD)
+
+if [ -n "$choice" ]; then
+    wall="$WALL_DIR/$choice"
+    if [ -f "$wall" ]; then
+        feh --bg-fill "$wall"
+        notify-send "Wallpaper" "Set to $choice"
+        BASENAME=$(basename "$wall")
+        ~/.config/i3/apply-theme.sh "$BASENAME"
+    fi
+fi

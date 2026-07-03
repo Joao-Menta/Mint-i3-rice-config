@@ -1,0 +1,63 @@
+[global]
+    monitor = 0
+    follow = mouse
+    geometry = "300x5-30+20"
+    indicate_hidden = yes
+    shrink = no
+    transparency = 10
+    notification_height = 0
+    separator_height = 2
+    padding = 8
+    horizontal_padding = 8
+    text_icon_padding = 0
+    frame_width = 2
+    frame_color = "#a3a47e"
+    separator_color = frame
+    sort = yes
+    idle_threshold = 120
+    font = Inconsolata Nerd Font Mono 10
+    line_height = 0
+    markup = full
+    format = "<b>%s</b>\n%b"
+    alignment = left
+    vertical_alignment = center
+    show_age_threshold = 60
+    word_wrap = yes
+    ellipsize = middle
+    ignore_newline = no
+    stack_duplicates = true
+    hide_duplicates_count = false
+    show_indicators = yes
+    icon_position = left
+    min_icon_size = 32
+    max_icon_size = 64
+    sticky_history = yes
+    history_length = 20
+    dmenu = /usr/bin/rofi -dmenu -p dunst
+    browser = /usr/bin/firefox
+    always_run_script = true
+    title = Dunst
+    class = Dunst
+    corner_radius = 0
+    ignore_dbusclose = false
+    mouse_left_click = do_action
+    mouse_middle_click = close_all
+    mouse_right_click = close
+
+[urgency_low]
+    background = "#6b6557"
+    foreground = "#c4c3c1"
+    timeout = 10
+    frame_color = "#a3a47e"
+
+[urgency_normal]
+    background = "#6b6557"
+    foreground = "#c4c3c1"
+    timeout = 10
+    frame_color = "#a3a47e"
+
+[urgency_critical]
+    background = "#131008"
+    foreground = "#c4c3c1"
+    timeout = 0
+    frame_color = "#63593a"

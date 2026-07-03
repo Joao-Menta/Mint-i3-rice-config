@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+ROFI_CMD="rofi -dmenu -i -p Shortcuts -theme ~/.config/rofi/scripts/rofi-popup.rasi"
+
+binds=$(grep -r "^bindsym" ~/.config/i3/config 2>/dev/null | \
+    sed 's/bindsym //' | \
+    awk '{
+        key = $1
+        $1 = ""
+        sub(/^ /, "")
+        action = $0
+        printf "%-25s %s\n", key, action
+    }')
+
+choice=$(echo "$bindsym" | $ROFI_CMD)
+
+[ -n "$choice" ] && echo "$choice" | xclip -selection clipboard

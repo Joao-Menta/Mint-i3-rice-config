@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+ROFI_CMD="rofi -dmenu -i -p Bluetooth -theme ~/.config/rofi/scripts/rofi-popup.rasi"
+
+while true; do
+    if ! bluetoothctl show | grep -q "Powered: yes"; then
+        choice=$(printf " Power On" | $ROFI_CMD)
+        case "$choice" in
+            " Power On") bluetoothctl power on >/dev/null 2>&1; continue ;;
+            *) exit 0 ;;
+        esac
+    fi
+
+    devices=$(bluetoothctl devices Connected | awk '{for(i=3;i<=NF;i++) printf "%s ", $i; print "(connected)"}'
+    echo "---"
+    bluetoothctl devices Paired | grep -v "^Selected\|^Device\|^Endpoint\|^Transport" | while read -r mac name; do
+        connected=$(bluetoothctl devices Connected | grep -c "$mac")
+        [ "$connected" -eq 0 ] && echo "$name"
+    done
+    echo "---"
+    echo " Power Off"
+    echo " Scan")
+
+    choice=$(printf "%s\n" "$devices" | $ROFI_CMD)
+    [ -z "$choice" ] && exit 0
+
+    case "$choice" in
+        " Power Off") bluetoothctl power off >/dev/null 2>&1; exit 0 ;;
+        " Scan") bluetoothctl scan on &
+            notify-send "Bluetooth" "Scanning for devices..."
+            sleep 5
+            bluetoothctl scan off ;;
+        *)
+            mac=$(bluetoothctl devices | grep -F "$choice" | awk '{print $2}')
+            if echo "$choice" | grep -q "(connected)"; then
+                bluetoothctl disconnect "$mac" >/dev/null 2>&1
+            else
+                bluetoothctl connect "$mac" >/dev/null 2>&1
+            fi
+            ;;
+    esac
+done

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/rofi-clipboard"
+
+case "$1" in
+    save)
+        xclip -o -selection clipboard 2>/dev/null >> "$CACHE"
+        exit 0
+        ;;
+esac
+
+[ ! -f "$CACHE" ] && touch "$CACHE"
+
+ROFI_CMD="rofi -dmenu -i -p Clipboard -theme ~/.config/rofi/scripts/rofi-popup.rasi"
+
+choice=$(tac "$CACHE" | awk '!seen[$0]++' | $ROFI_CMD)
+
+case "$choice" in
+    "Clear History")
+        > "$CACHE"
+        notify-send "Clipboard" "History cleared"
+        ;;
+    "")
+        exit 0
+        ;;
+    *)
+        echo "$choice" | xclip -selection clipboard
+        echo "$choice" | xclip -selection primary
+        notify-send "Clipboard" "Copied: ${choice:0:50}"
+        ;;
+esac
+
+case "$choice" in
+    "Clear History"|"") ;;
+    *) echo "$choice" >> "$CACHE" ;;
+esac
