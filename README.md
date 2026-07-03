@@ -211,6 +211,8 @@ dotfiles/
 - **i3-master-stack**: [windwp/i3-master-stack](https://github.com/windwp/i3-master-stack)
 - **Nord theme**: [nordtheme.com](https://www.nordtheme.com/)
 - **Pywal**: [dylanaraps/pywal](https://github.com/dylanaraps/pywal)
+- **1ulisses/dotfiles**: [github.com/1ulisses/dotfiles](https://github.com/1ulisses/dotfiles)
+- **parazeeknova/doty**: [github.com/parazeeknova/doty](https://github.com/parazeeknova/doty)
 
 ## License
 
