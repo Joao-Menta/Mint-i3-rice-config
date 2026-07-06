@@ -1,0 +1,172 @@
+@import "~/.config/rofi/shared/colors.rasi"
+
+* {
+    font: "Inconsolata Nerd Font Mono 10";
+    background-colour: @background;
+    foreground-colour: @foreground;
+    selected-colour: @selected;
+    active-colour: @active;
+    urgent-colour: @urgent;
+    alt-colour: @background-alt;
+
+    error-message: @urgent;
+    warning-message: @active;
+    success-message: @selected;
+    info-message: @foreground;
+    on-primary-fixed: @foreground;
+}
+
+window {
+    transparency: "real";
+    location: northeast;
+    anchor: northeast;
+    fullscreen: false;
+    width: 420px;
+    x-offset: -10px;
+    y-offset: 30px;
+    enabled: true;
+    border-radius: 0px;
+    cursor: "default";
+    background-color: black / 30%;
+}
+
+mainbox {
+    enabled: true;
+    spacing: 0px;
+    padding: 0px;
+    background-color: transparent;
+    orientation: vertical;
+    children: [ "inputbar", "message", "listview" ];
+}
+
+inputbar {
+    enabled: true;
+    spacing: 10px;
+    padding: 60px 30px 40px;
+    background-color: transparent;
+    background-image: url("~/.config/rofi/images/g.png", width);
+    text-color: @foreground-colour;
+    orientation: horizontal;
+    children: [ "textbox-prompt-colon", "entry" ];
+}
+
+textbox-prompt-colon {
+    enabled: true;
+    expand: false;
+    str: "";
+    padding: 8px 12px;
+    border-radius: 12px;
+    background-color: black / 30%;
+    text-color: inherit;
+}
+
+entry {
+    enabled: true;
+    expand: true;
+    padding: 8px 16px;
+    border-radius: 12px;
+    background-color: black / 30%;
+    text-color: @foreground-colour;
+    cursor: text;
+    placeholder: "Search";
+    placeholder-color: @alt-colour;
+}
+
+listview {
+    enabled: true;
+    columns: 1;
+    lines: 10;
+    cycle: true;
+    dynamic: true;
+    scrollbar: false;
+    layout: vertical;
+    reverse: false;
+    fixed-height: false;
+    fixed-columns: true;
+    spacing: 4px;
+    padding: 8px;
+    background-color: transparent;
+    text-color: @foreground-colour;
+    cursor: "default";
+}
+
+element {
+    enabled: true;
+    spacing: 8px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background-color: black / 10%;
+    text-color: @foreground-colour;
+    cursor: pointer;
+}
+
+element normal.normal {
+    background-color: black / 10%;
+    text-color: @foreground-colour;
+}
+
+element normal.urgent {
+    background-color: @urgent-colour;
+    text-color: @foreground-colour;
+}
+
+element normal.active {
+    background-color: @active-colour;
+    text-color: @foreground-colour;
+}
+
+element selected.normal {
+    background-color: @selected-colour;
+    text-color: @foreground-colour;
+}
+
+element selected.urgent {
+    background-color: @urgent-colour;
+    text-color: @foreground-colour;
+}
+
+element selected.active {
+    background-color: @active-colour;
+    text-color: @foreground-colour;
+}
+
+element-icon {
+    background-color: transparent;
+    text-color: inherit;
+    size: 20px;
+    cursor: inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    cursor: inherit;
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+}
+
+message {
+    enabled: true;
+    margin: 4px 8px;
+    padding: 8px 12px;
+    border: 1px solid;
+    border-radius: 12px;
+    border-color: @selected-colour;
+    background-color: black / 15%;
+}
+
+textbox {
+    padding: 8px 12px;
+    border-radius: 12px;
+    background-color: black / 15%;
+    text-color: @foreground-colour;
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+}
+
+error-message {
+    padding: 12px;
+    border-radius: 12px;
+    background-color: @background-colour;
+    text-color: @foreground-colour;
+}

@@ -24,6 +24,9 @@ Personal dotfiles for **Linux Mint** with **i3** window manager, themed with a c
 ![Btop](screenshots/btop.png)
 *Terminal with fastfetch and btop, side by side*
 
+![Network Manager](screenshots/network-manager.png)
+*Rofi network manager (hypr-net) with Type 7 style and dynamic theme colors*
+
 ## Dependencies
 
 ### Required
@@ -126,6 +129,7 @@ i3-msg restart
 | `$mod+d` | Rofi app launcher |
 | `$mod+Escape` | Rofi power menu |
 | `$mod+n` | Cycle wallpaper |
+| `$mod+Shift+n` | Network manager |
 | `$mod+b` / `Ctrl+Shift+Escape` | Open btop |
 | `$mod+e` | Open Thunar file manager |
 | `$mod+q` | Kill focused window |
@@ -186,6 +190,7 @@ dotfiles/
 │   ├── launcher.rasi             # App launcher theme
 │   ├── shared/                   # Shared colors, fonts
 │   ├── scripts/                  # Rofi scripts
+│   ├── network-manager/          # Network manager (hypr-net)
 │   └── colors/                   # Color themes
 ├── dunst/
 │   └── dunstrc                   # Notification config
@@ -211,6 +216,7 @@ dotfiles/
 - **i3-master-stack**: [windwp/i3-master-stack](https://github.com/windwp/i3-master-stack)
 - **Nord theme**: [nordtheme.com](https://www.nordtheme.com/)
 - **Pywal**: [dylanaraps/pywal](https://github.com/dylanaraps/pywal)
+- **hyprltm-net**: [hyprltm/hyprltm-net](https://github.com/hyprltm/hyprltm-net)
 - **1ulisses/dotfiles**: [github.com/1ulisses/dotfiles](https://github.com/1ulisses/dotfiles)
 - **parazeeknova/doty**: [github.com/parazeeknova/doty](https://github.com/parazeeknova/doty)
 

@@ -35,6 +35,7 @@ bindsym $mod+Shift+Delete exec dm-tool lock
 
 # applications
 bindsym $mod+d exec --no-startup-id ~/.config/rofi/scripts/launcher_t1
+bindsym $mod+Shift+n exec --no-startup-id ~/.config/rofi/network-manager/hypr-net.sh
 bindsym $mod+Escape exec --no-startup-id ~/.config/rofi/scripts/powermenu_t1
 bindsym Control+Shift+Escape exec ghostty -e btop
 bindsym $mod+b exec ghostty -e btop
