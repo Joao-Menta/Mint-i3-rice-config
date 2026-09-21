@@ -1,0 +1,7 @@
+{
+  "width": 240,
+  "position": "top-left",
+  "margin_x": 8,
+  "margin_y": 34,
+  "_comentario": "Posición del panel (como el volume_popup de doty en modo flotante: arriba a la izquierda, junto al icono de volumen de polybar, margen 8 a la izquierda y 34 abajo del borde superior). Opciones de position: top-left, top-right, top-center."
+}

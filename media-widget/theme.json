@@ -1,0 +1,17 @@
+{
+  "font": "FiraCode Nerd Font",
+  "colors": {
+    "bg": "#2e3440",
+    "bg_dark": "#1d2330",
+    "bg_light": "#4c566a",
+    "fg": "#eceff4",
+    "fg_light": "#aeb7c6",
+    "accent": "#88c0d0",
+    "secondary": "#81a1c1",
+    "tertiary": "#81a1c1",
+    "error": "#bf616a",
+    "glass": true,
+    "glass_alpha": 0.5
+  },
+  "_comentario": "Paleta Nord del sistema (polybar/i3). Fondo translúcido rgba(bg, 0.5) cuando glass=true; borde, textos y barrita de bloques en accent #88c0d0. glass_alpha: menor = más transparente."
+}

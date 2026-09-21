@@ -6,6 +6,7 @@ exec_always --no-startup-id dunst
 # polybar
 exec_always --no-startup-id ~/.config/polybar/scripts/clipboard-daemon.sh
 exec_always --no-startup-id ~/.config/polybar/launch.sh 
+exec_always --no-startup-id ~/.local/bin/fix-es8336-audio.sh watch 
 # keyboard
 exec --no-startup-id setxkbmap -layout latam
 exec --no-startup-id setxkbmap -option caps:backspace
@@ -31,6 +32,7 @@ bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym $mod+XF86AudioLowerVolume exec --no-startup-id bash -c 'if pactl list sinks | grep -A 12 "Name: $(pactl get-default-sink)" | grep -q "\[Out\] Headphones"; then pactl set-sink-port @DEFAULT_SINK@ "[Out] Speaker"; else pactl set-sink-port @DEFAULT_SINK@ "[Out] Headphones"; fi'
 bindsym $mod+Shift+Delete exec dm-tool lock
 
 # applications
@@ -162,8 +164,10 @@ gaps inner 5px
 gaps top 30px
 # window decoration
 for_window [class=".*"] border pixel 2
-client.focused          #a3a47e #a3a47e #131008 #a3a47e #a3a47e
-client.focused_inactive #6b6557 #131008 #c4c3c1 #131008 #131008
-client.unfocused        #6b6557 #131008 #c4c3c1 #131008 #131008
-client.urgent           #63593a #63593a #131008 #63593a #63593a
-client.background       #131008
+# media-widget popup (sin bordes, flotante y visible en todos los workspaces)
+for_window [class="media-widget"] floating enable, border pixel 0, sticky enable
+client.focused          #88c0d0 #88c0d0 #2e3440 #88c0d0 #88c0d0
+client.focused_inactive #4c566a #2e3440 #eceff4 #2e3440 #2e3440
+client.unfocused        #4c566a #2e3440 #eceff4 #2e3440 #2e3440
+client.urgent           #bf616a #bf616a #2e3440 #bf616a #bf616a
+client.background       #2e3440
