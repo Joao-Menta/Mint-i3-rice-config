@@ -207,6 +207,10 @@ dotfiles/
 │   ├── colors-60.sh
 │   ├── colors-70.sh
 │   └── colors-nord.sh            # Default fallback
+├── media-widget/             # Audio panel (based on doty volume_popup)
+│   ├── main.py                   # Window, sections, timers
+│   ├── toggle.sh                 # Opener (polybar click-left)
+│   └── ...                       # See media-widget/README.md
 └── shell/
     └── palette.sh                # Terminal color sequences
 ```
@@ -218,7 +222,7 @@ dotfiles/
 - **Pywal**: [dylanaraps/pywal](https://github.com/dylanaraps/pywal)
 - **hyprltm-net**: [hyprltm/hyprltm-net](https://github.com/hyprltm/hyprltm-net)
 - **1ulisses/dotfiles**: [github.com/1ulisses/dotfiles](https://github.com/1ulisses/dotfiles)
-- **parazeeknova/doty**: [github.com/parazeeknova/doty](https://github.com/parazeeknova/doty)
+- **parazeeknova/doty**: [github.com/parazeeknova/doty](https://github.com/parazeeknova/doty) — source of the `volume_popup` replicated by `media-widget/`, inspiration for the polybar volume modules
 
 ## License
 

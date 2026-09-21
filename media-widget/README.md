@@ -69,3 +69,7 @@ La fuente de reproductor seleccionada se guarda en
   que `toggle.sh` (que mata con `kill`) sea fiable.
 - **Depuración**: `MEDIA_WIDGET_DEBUG=1` vuelca `dlog()` a stderr
   (`/tmp/media-widget.log` con `toggle.sh`).
+
+## Créditos
+
+- Basado en el `volume_popup` de [parazeeknova/doty](https://github.com/parazeeknova/doty).
